@@ -3,7 +3,8 @@ const otherJobRole = document.getElementById("other-job-role");
 const shirtColors =document.getElementById("shirt-colors"); //turn shirt color field off by defualt 
 const shirtDesign = document.getElementById('design');
 const shirtColorOption = document.getElementById('color');
-const activityBox = document.getElementById("activities-box");
+const activities = document.getElementById("activities");
+let totalCost = 0;
 
 //Testing script.js that is hooked up and working from index.html 
 console.log('test');
@@ -31,17 +32,43 @@ shirtDesign.addEventListener("change", e =>{
     let design = e.target.value;
     let optionC ="";
     shirtColorOption.style.display="none";
-    console.log("design "+design);
+    //console.log("design "+design);
     for(i=0; i < shirtColorOption.length;i++){
         let theme =shirtColorOption[i].dataset.theme;
-        console.log(theme);
+        //console.log(theme);
         if(design === "js puns" && theme === 'js puns'){
            shirtColorOption[i].style.display =""; 
         }else if (design === "heart js" && theme === 'heart js'){
             shirtColorOption[i].style.display ="";
         }else shirtColorOption[i].style.display ="none"; 
-        console.log(shirtColorOption);
+        //console.log(shirtColorOption);
     }
 shirtColorOption.style.display = "";
 shirtColorOption.focus();
+});
+
+activities.addEventListener("change", e=>{
+    
+    checkedOne = e.target;
+    if(checkedOne.checked){
+        totalCost +=parseInt(checkedOne.dataset.cost);
+        console.log(totalCost);
+    }else totalCost -=parseInt(checkedOne.dataset.cost);
+    let typeCost = activities.firstElementChild.nextElementSibling.nextElementSibling;
+    let htmlCost = typeCost.textContent;
+    typeCost.innerHTML =`Total Cost: $${totalCost}` ;
+    //typeCost =;
+    console.log(typeCost);
+
+
+    // console.log(checkedOne);
+    // console.log(checkedOne.checked);
+    // let checkboxes = activities.firstElementChild.nextElementSibling//.firstElementChild;
+    // console.log(checkboxes);
+    // let inputCheckbox = checkboxes.firstElementChild;
+    // console.log(inputCheckbox);
+    // console.log(inputCheckbox.nextElementSibling);
+    // console.log(inputCheckbox.firstElementChild);
+    
+    
 })

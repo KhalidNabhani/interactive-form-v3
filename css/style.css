@@ -129,7 +129,7 @@ input {
 }
 
 input:focus {
-  background: rgba(255, 255, 255, 1);
+  background: rgb(255, 555, 255, 1 );
   border-color:  rgb(9, 73, 250);
 }
 
