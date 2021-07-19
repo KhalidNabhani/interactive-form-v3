@@ -9,6 +9,8 @@ const paymentMethods = document.getElementById("payment");
 const creditCard = document.getElementById("credit-card");
 const paypal = document.getElementById("paypal");
 const bitcoin = document.getElementById("bitcoin");
+const formTest = document.getElementsByTagName("form");
+const form = document.querySelector("form");
 
 let totalCost = 0;
 
@@ -65,9 +67,9 @@ activities.addEventListener("change", e=>{
         totalCost +=parseInt(checkedOne.dataset.cost);
         console.log(totalCost);
     }else totalCost -=parseInt(checkedOne.dataset.cost);
-    let typeCost = activities.firstElementChild.nextElementSibling.nextElementSibling;
-    let htmlCost = typeCost.textContent;
-    typeCost.innerHTML =`Total Cost: $${totalCost}`;
+    let printCost = activities.firstElementChild.nextElementSibling.nextElementSibling;
+    //let htmlCost = typeCost.textContent;
+    printCost.innerHTML =`Total: $${totalCost}`;
     //typeCost =;
     console.log(typeCost);
 });
@@ -92,6 +94,13 @@ paymentMethods.addEventListener("change", e=>{
 
     }
 });
+
+form.addEventListener("submit", e=>{
+    e.preventDefault();
+    console.log("Form Submitted");
+    isValidName();
+
+});
     // console.log(checkedOne);
     // console.log(checkedOne.checked);
     // let checkboxes = activities.firstElementChild.nextElementSibling//.firstElementChild;
@@ -107,7 +116,7 @@ paymentMethods.addEventListener("change", e=>{
 function setPaymnetDefault(){
     
     for(let j=1; j < paymentMethods.options.length; j++){
-        console.log(j);
+        
         if(paymentMethods.options[j].value === "credit-card"){
             //paymentsType.options[i].selected =true;
             paymentMethods.options.selectedIndex =j;
@@ -117,3 +126,12 @@ function setPaymnetDefault(){
 }
 
 setPaymnetDefault();
+
+function isValidName(){
+    const fullName = document.getElementById("name");
+    if (!fullName.value){
+        fullName.style.borderColor="Red"
+    }else fullName.style.borderColor ="black";
+    console.log(fullName.value);
+
+}
