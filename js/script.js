@@ -56,8 +56,8 @@ shirtDesign.addEventListener("change", e =>{
         }else shirtColorOption[i].style.display ="none"; 
         //console.log(shirtColorOption);
     }
-shirtColorOption.style.display = "";
-shirtColorOption.focus();
+    shirtColorOption.style.display = "";
+    shirtColorOption.focus();
 });
 
 activities.addEventListener("change", e=>{
