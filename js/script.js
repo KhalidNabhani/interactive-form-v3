@@ -100,7 +100,12 @@ form.addEventListener("submit", e=>{
     //console.log("Form Submitted");
     isValidName(e);
     isValidEmail(e);
-    //isValidCc();
+
+    const payment = document.getElementById("payment");
+    if (payment.value === "credit-card"){  
+        isValidCc(e);
+        
+    }
 
 });
     // console.log(checkedOne);
@@ -183,17 +188,91 @@ function isValidEmail(e){
 
 
 
-function isValidCc(){
+function isValidCc(e){
+    e.preventDefault();
     const ccNum = document.getElementById("cc-num")
     const zip = document.getElementById("zip");
     const cvv = document.getElementById("cvv");
 
-    const ccNumStatus=/^(\d{13-16})$/.test(ccNum);
-    const zipStatus =/^(\d{5})$/.test(zip);
-    const cvvStatus = /^(\d{3})$/.test(cvv);
+    const ccNumStatus=/^[0-9]{13,16}$/.test(ccNum.value);
+    const zipStatus =/^(\d{5})$/.test(zip.value);
+    const cvvStatus = /^(\d{3})$/.test(cvv.value);
     
     console.log("CC " + ccNumStatus);
+    console.log("Zip Code " + zipStatus);
     console.log("cvv " + cvvStatus);
+
+    if(ccNum.value ===''){
+        ccNum.parentElement.className= "not-valid";
+        ccNum.parentElement.lastElementChild.style.display= 'block';
+        ccNum.parentElement.classList.add("not-valid");
+        ccNum.parentElement.classList.remove('valid');
+
+        
+        ccNum.parentElement.lastElementChild.innerHTML = "Credit Card field can't be left empty";
+        console.log("this Credit Card Numer check")
+    }else if(!ccNumStatus){
+        ccNum.parentElement.className= "not-valid";
+        ccNum.parentElement.lastElementChild.style.display= 'block';
+        ccNum.parentElement.classList.add("not-valid");
+        ccNum.parentElement.classList.remove('valid');
+
+        
+        ccNum.parentElement.lastElementChild.innerHTML = "Credit Card  should be 13 - 16 digits  ";
+        console.log("this Credit wrong num ")
+
+    }else {
+        ccNum.parentElement.className = 'valid';
+        ccNum.parentElement.lastElementChild.style.display= 'none';
+    }
+
+    if(zip.value ===''){
+        zip.parentElement.className= "not-valid";
+        zip.parentElement.lastElementChild.style.display= 'block';
+        zip.parentElement.classList.add("not-valid");
+        zip.parentElement.classList.remove('valid');
+
+        
+        zip.parentElement.lastElementChild.innerHTML = "Can't Be Embty";
+        console.log("this Zip Code Numer check")
+    }else if(!zipStatus){
+        zip.parentElement.className= "not-valid";
+        zip.parentElement.lastElementChild.style.display= 'block';
+        zip.parentElement.classList.add("not-valid");
+        zip.parentElement.classList.remove('valid');
+
+        
+        zip.parentElement.lastElementChild.innerHTML = "zip code should be 5 digit   ";
+        console.log("thisis wrong zip code  ")
+
+    }else {
+        zip.parentElement.className = 'valid';
+       zip.parentElement.lastElementChild.style.display= 'none';
+    }
+
+    if(cvv.value ===''){
+        cvv.parentElement.className= "not-valid";
+        cvv.parentElement.lastElementChild.style.display= 'block';
+        cvv.parentElement.classList.add("not-valid");
+        cvv.parentElement.classList.remove('valid');
+
+        
+        cvv.parentElement.lastElementChild.innerHTML = "please enter 3 digit cvv from back of your card";
+        console.log(" cvv Code Numer check")
+    }else if(!cvvStatus){
+        cvv.parentElement.className= "not-valid";
+        cvv.parentElement.lastElementChild.style.display= 'block';
+        cvv.parentElement.classList.add("not-valid");
+        cvv.parentElement.classList.remove('valid');
+
+        
+        cvv.parentElement.lastElementChild.innerHTML = "cvv code should be 3 digits   ";
+        console.log("thisis wrong cvv code  ")
+
+    }else {
+        cvv.parentElement.className = 'valid';
+       cvv.parentElement.lastElementChild.style.display= 'none';
+    }
 }
 
 function isValidCoursesEntry(){
