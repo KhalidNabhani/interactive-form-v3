@@ -97,8 +97,10 @@ paymentMethods.addEventListener("change", e=>{
 
 form.addEventListener("submit", e=>{
     e.preventDefault();
-    console.log("Form Submitted");
-    isValidName();
+    //console.log("Form Submitted");
+    isValidName(e);
+    isValidEmail(e);
+    //isValidCc();
 
 });
     // console.log(checkedOne);
@@ -127,11 +129,73 @@ function setPaymnetDefault(){
 
 setPaymnetDefault();
 
-function isValidName(){
+function isValidName(e){
     const fullName = document.getElementById("name");
-    if (!fullName.value){
-        fullName.style.borderColor="Red"
-    }else fullName.style.borderColor ="black";
+    e.preventDefault();
+    if (fullName.value ===''){
+        fullName.parentElement.className= "not-valid";
+        fullName.parentElement.lastElementChild.style.display= 'block';
+        fullName.parentElement.classList.add("not-valid");
+        fullName.parentElement.classList.remove('valid');
+
+        
+        fullName.parentElement.lastElementChild.innerHTML = "Name field cannot be empty";
+       
+    }else {
+        fullName.parentElement.className = 'valid';
+        fullName.parentElement.lastElementChild.style.display='none'
+    }
     console.log(fullName.value);
+
+}
+
+function isValidEmail(e){
+    const eMail = document.getElementById("email");
+    const eMailStatus = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([com\.]{3})$/.test(eMail.value);
+    console.log("is validEmail ", eMailStatus);
+    e.preventDefault();
+    if (eMail.value ===''){
+        email.parentElement.className= "not-valid";
+        email.parentElement.lastElementChild.style.display= 'block';
+        email.parentElement.classList.add("not-valid");
+
+        
+        eMail.parentElement.classList.remove('valid');
+        eMail.parentNode.classList.add('not-valid', 'error-border');
+        eMail.parentElement.lastElementChild.innerHTML = "Email cannot be empty";
+      
+    } else if (!eMailStatus) {
+        email.parentElement.className= "not-valid";
+        email.parentElement.lastElementChild.style.display= 'block';
+        email.parentElement.classList.add("not-valid");
+
+        
+        eMail.parentElement.classList.remove('valid');
+        eMail.parentNode.classList.add('not-valid', 'error-border');
+        eMail.parentElement.lastElementChild.innerHTML = "Email not in format";
+    }else {
+   
+    eMail.parentElement.className = 'valid';
+    eMail.parentElement.lastElementChild.style.display= 'none';
+    }
+}
+    
+
+
+
+function isValidCc(){
+    const ccNum = document.getElementById("cc-num")
+    const zip = document.getElementById("zip");
+    const cvv = document.getElementById("cvv");
+
+    const ccNumStatus=/^(\d{13-16})$/.test(ccNum);
+    const zipStatus =/^(\d{5})$/.test(zip);
+    const cvvStatus = /^(\d{3})$/.test(cvv);
+    
+    console.log("CC " + ccNumStatus);
+    console.log("cvv " + cvvStatus);
+}
+
+function isValidCoursesEntry(){
 
 }
