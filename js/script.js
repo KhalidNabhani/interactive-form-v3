@@ -11,8 +11,12 @@ const paypal = document.getElementById("paypal");
 const bitcoin = document.getElementById("bitcoin");
 const formTest = document.getElementsByTagName("form");
 const form = document.querySelector("form");
+const activitiesHeader = document.getElementById("activities");
+const activitiesErrorMessage =document.getElementById("activities-hint");
+
 
 let totalCost = 0;
+let coursesCounter =0;
 
 //Testing script.js that is hooked up and working from index.html 
 console.log('test');
@@ -65,13 +69,18 @@ activities.addEventListener("change", e=>{
     checkedOne = e.target;
     if(checkedOne.checked){
         totalCost +=parseInt(checkedOne.dataset.cost);
-        console.log(totalCost);
-    }else totalCost -=parseInt(checkedOne.dataset.cost);
+        coursesCounter +=1;
+        
+    }else {
+        totalCost -=parseInt(checkedOne.dataset.cost);
+        coursesCounter -=1;
+    }
+
     let printCost = activities.firstElementChild.nextElementSibling.nextElementSibling;
     //let htmlCost = typeCost.textContent;
     printCost.innerHTML =`Total: $${totalCost}`;
     //typeCost =;
-    console.log(typeCost);
+    //console.log(typeCost);
 });
 
 paymentMethods.addEventListener("change", e=>{
@@ -106,6 +115,24 @@ form.addEventListener("submit", e=>{
         isValidCc(e);
         
     }
+
+    
+    if(coursesCounter===0){
+       
+        activitiesHeader.firstElementChild.classList.add("not-valid");
+        activitiesErrorMessage.classList.add("not-valid");
+        activitiesErrorMessage.style.display="block";
+        console.log("No. of courses " + coursesCounter);
+    }else {
+        activitiesHeader.firstElementChild.classList.add("valid");
+        activitiesHeader.firstElementChild.classList.remove("not-valid");
+        activitiesErrorMessage.classList.remove("not-valid");
+        activitiesErrorMessage.classList.add("valid");
+        activitiesErrorMessage.style.display="none";
+        console.log("No.... of courses " + coursesCounter);
+    }
+
+   
 
 });
     // console.log(checkedOne);
