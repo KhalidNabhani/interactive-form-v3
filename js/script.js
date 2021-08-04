@@ -1,10 +1,9 @@
 const title = document.getElementById("title");
 const otherJobRole = document.getElementById("other-job-role"); 
-const shirtColors =document.getElementById("shirt-colors"); //turn shirt color field off by defualt 
+const shirtColors =document.getElementById("shirt-colors"); 
 const shirtDesign = document.getElementById('design');
 const shirtColorOption = document.getElementById('color');
 const activities = document.getElementById("activities");
-//const paymentMethods = document.getElementsByClassName("payment-methods");
 const paymentMethods = document.getElementById("payment");
 const creditCard = document.getElementById("credit-card");
 const paypal = document.getElementById("paypal");
@@ -29,7 +28,10 @@ shirtColorOption.style.display="none";
 window.onload = ()=>document.getElementById("name").focus();
 
 
+/******************************************************************************* 
+                             Event Listeners 
 
+******************************************************************************* */
 
 
 /* event listener on change for "other" jobtitle when selected display otherJobRole field 
@@ -46,6 +48,7 @@ title.addEventListener("change", e =>{
     }
 });
 
+/* event listener on change to select shirt design  */
 shirtDesign.addEventListener("change", e =>{
     let design = e.target.value;
    
@@ -59,11 +62,12 @@ shirtDesign.addEventListener("change", e =>{
         }else if (design === "heart js" && theme === 'heart js'){
             shirtColorOption[i].style.display ="";
         }else shirtColorOption[i].style.display ="none"; 
-        //console.log(shirtColorOption);
     }
     shirtColorOption.style.display = "";
     shirtColorOption.focus();
 });
+
+/* event listener on change to select Activities and calculate cost */
 
 activities.addEventListener("change", e=>{
     
@@ -71,20 +75,20 @@ activities.addEventListener("change", e=>{
     if(checkedOne.checked){
         totalCost +=parseInt(checkedOne.dataset.cost);
         coursesCounter +=1;
-        
         isDayTimeConflict(checkedOne.dataset.dayAndTime)
     }else {
         totalCost -=parseInt(checkedOne.dataset.cost);
-        coursesCounter -=1;
-        
+        coursesCounter -=1;   
     }
-
     let printCost = activities.firstElementChild.nextElementSibling.nextElementSibling;
-    //let htmlCost = typeCost.textContent;
     printCost.innerHTML =`Total: $${totalCost}`;
-    //typeCost =;
-    //console.log(typeCost);
 });
+
+/* event listener on change to select Payments Methods 
+    three types when one selected the other two are hiden
+    if Credit Card selected then other required fields for Credit card
+    indormation are displayed 
+*/
 
 paymentMethods.addEventListener("change", e=>{
     selectedpayment =e.target;
@@ -107,6 +111,10 @@ paymentMethods.addEventListener("change", e=>{
     }
 });
 
+/* event listener on submit tfor form required field verifications  
+
+*/
+
 form.addEventListener("submit", e=>{
     e.preventDefault();
     //console.log("Form Submitted");
@@ -115,13 +123,10 @@ form.addEventListener("submit", e=>{
 
     const payment = document.getElementById("payment");
     if (payment.value === "credit-card"){  
-        isValidCc(e);
-        
+        isValidCc(e);    
     }
 
-    
     if(coursesCounter===0){
-       
         activitiesHeader.firstElementChild.classList.add("not-valid");
         activitiesErrorMessage.classList.add("not-valid");
         activitiesErrorMessage.style.display="block";
@@ -133,22 +138,27 @@ form.addEventListener("submit", e=>{
         activitiesErrorMessage.classList.add("valid");
         activitiesErrorMessage.style.display="none";
         console.log("No.... of courses " + coursesCounter);
-    }
-
-   
-
+    }  
 });
-    // console.log(checkedOne);
-    // console.log(checkedOne.checked);
-    // let checkboxes = activities.firstElementChild.nextElementSibling//.firstElementChild;
-    // console.log(checkboxes);
-    // let inputCheckbox = checkboxes.firstElementChild;
-    // console.log(inputCheckbox);
-    // console.log(inputCheckbox.nextElementSibling);
-    // console.log(inputCheckbox.firstElementChild);
-    
+
+/* Make the focus states of the activities more obvious to all users */
+activities.addEventListener('focus', (e) => {
+    e.target.parentNode.className = 'focus';
+}, true)
+
+activities.addEventListener('blur', (e) => {
+    e.target.parentNode.className = '';
+}, true)
+
+/******************************************************************************* 
+            functions and handlers of events listener
+
+******************************************************************************* */
     
 
+/* this function will set Crredit Card as Payment Methods when called   
+
+*/
 
 function setPaymnetDefault(){
     
@@ -163,6 +173,12 @@ function setPaymnetDefault(){
 }
 
 setPaymnetDefault();
+
+
+/* function to veryfy name input 
+    check is input field if empty or not 
+    raise error messages and visual icones 
+*/
 
 function isValidName(e){
     const fullName = document.getElementById("name");
@@ -180,10 +196,12 @@ function isValidName(e){
         fullName.parentElement.className = 'valid';
         fullName.parentElement.lastElementChild.style.display='none'
     }
-    console.log(fullName.value);
-
 }
 
+/* function to verify email input 
+    check is input field if empty or not and the input in the right format 
+    raise error messages and visual icones 
+*/
 function isValidEmail(e){
     const eMail = document.getElementById("email");
     const eMailStatus = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([com\.]{3})$/.test(eMail.value);
@@ -193,29 +211,22 @@ function isValidEmail(e){
         email.parentElement.className= "not-valid";
         email.parentElement.lastElementChild.style.display= 'block';
         email.parentElement.classList.add("not-valid");
-
-        
         eMail.parentElement.classList.remove('valid');
         eMail.parentNode.classList.add('not-valid', 'error-border');
         eMail.parentElement.lastElementChild.innerHTML = "Email cannot be empty";
-      
     } else if (!eMailStatus) {
         email.parentElement.className= "not-valid";
         email.parentElement.lastElementChild.style.display= 'block';
         email.parentElement.classList.add("not-valid");
-
-        
         eMail.parentElement.classList.remove('valid');
         eMail.parentNode.classList.add('not-valid', 'error-border');
         eMail.parentElement.lastElementChild.innerHTML = "Email not in format";
     }else {
-   
-    eMail.parentElement.className = 'valid';
-    eMail.parentElement.lastElementChild.style.display= 'none';
+        eMail.parentElement.className = 'valid';
+        eMail.parentElement.lastElementChild.style.display= 'none';
     }
 }
     
-
 
 
 function isValidCc(e){
@@ -237,20 +248,13 @@ function isValidCc(e){
         ccNum.parentElement.lastElementChild.style.display= 'block';
         ccNum.parentElement.classList.add("not-valid");
         ccNum.parentElement.classList.remove('valid');
-
-        
         ccNum.parentElement.lastElementChild.innerHTML = "Credit Card field can't be left empty";
-        console.log("this Credit Card Numer check")
     }else if(!ccNumStatus){
         ccNum.parentElement.className= "not-valid";
         ccNum.parentElement.lastElementChild.style.display= 'block';
         ccNum.parentElement.classList.add("not-valid");
         ccNum.parentElement.classList.remove('valid');
-
-        
         ccNum.parentElement.lastElementChild.innerHTML = "Credit Card  should be 13 - 16 digits  ";
-        console.log("this Credit wrong num ")
-
     }else {
         ccNum.parentElement.className = 'valid';
         ccNum.parentElement.lastElementChild.style.display= 'none';
@@ -261,23 +265,16 @@ function isValidCc(e){
         zip.parentElement.lastElementChild.style.display= 'block';
         zip.parentElement.classList.add("not-valid");
         zip.parentElement.classList.remove('valid');
-
-        
         zip.parentElement.lastElementChild.innerHTML = "Can't Be Embty";
-        console.log("this Zip Code Numer check")
     }else if(!zipStatus){
         zip.parentElement.className= "not-valid";
         zip.parentElement.lastElementChild.style.display= 'block';
         zip.parentElement.classList.add("not-valid");
         zip.parentElement.classList.remove('valid');
-
-        
         zip.parentElement.lastElementChild.innerHTML = "zip code should be 5 digit   ";
-        console.log("thisis wrong zip code  ")
-
     }else {
         zip.parentElement.className = 'valid';
-       zip.parentElement.lastElementChild.style.display= 'none';
+        zip.parentElement.lastElementChild.style.display= 'none';
     }
 
     if(cvv.value ===''){
@@ -285,8 +282,6 @@ function isValidCc(e){
         cvv.parentElement.lastElementChild.style.display= 'block';
         cvv.parentElement.classList.add("not-valid");
         cvv.parentElement.classList.remove('valid');
-
-        
         cvv.parentElement.lastElementChild.innerHTML = "please enter 3 digit cvv from back of your card";
         console.log(" cvv Code Numer check")
     }else if(!cvvStatus){
@@ -294,33 +289,21 @@ function isValidCc(e){
         cvv.parentElement.lastElementChild.style.display= 'block';
         cvv.parentElement.classList.add("not-valid");
         cvv.parentElement.classList.remove('valid');
-
-        
         cvv.parentElement.lastElementChild.innerHTML = "cvv code should be 3 digits   ";
         console.log("thisis wrong cvv code  ")
 
     }else {
         cvv.parentElement.className = 'valid';
-       cvv.parentElement.lastElementChild.style.display= 'none';
+        cvv.parentElement.lastElementChild.style.display= 'none';
     }
 }
-activities.addEventListener('focus', (e) => {
-    e.target.parentNode.className = 'focus'
-}, true)
 
-activities.addEventListener('blur', (e) => {
-    e.target.parentNode.className = ''
-}, true)
-
-
-
+/**************
+ *  check selected cources if there is any conflict in time and adjust cost
+ */
 function isDayTimeConflict(selectedCourseDayAndTime){
     checkedOne.checked = false;
 
-    
-
-    
-    console.log(activitiesList);
     for (let i=1;i < activitiesList.length; i++ )
     {
         if( activitiesList[i].firstElementChild.dataset.dayAndTime === selectedCourseDayAndTime 
@@ -333,10 +316,6 @@ function isDayTimeConflict(selectedCourseDayAndTime){
             totalCost -=parseInt(activitiesList[i].firstElementChild.dataset.cost);
 
         }
-        
-        
         checkedOne.checked = true;
-        console.log("no matches");
     }
-    
 }
