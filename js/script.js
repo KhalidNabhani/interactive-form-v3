@@ -13,10 +13,11 @@ const formTest = document.getElementsByTagName("form");
 const form = document.querySelector("form");
 const activitiesHeader = document.getElementById("activities");
 const activitiesErrorMessage =document.getElementById("activities-hint");
-
+const activitiesList=document.querySelectorAll('#activities-box label');
 
 let totalCost = 0;
 let coursesCounter =0;
+let checkedOne ='';
 
 //Testing script.js that is hooked up and working from index.html 
 console.log('test');
@@ -71,9 +72,11 @@ activities.addEventListener("change", e=>{
         totalCost +=parseInt(checkedOne.dataset.cost);
         coursesCounter +=1;
         
+        isDayTimeConflict(checkedOne.dataset.dayAndTime)
     }else {
         totalCost -=parseInt(checkedOne.dataset.cost);
         coursesCounter -=1;
+        
     }
 
     let printCost = activities.firstElementChild.nextElementSibling.nextElementSibling;
@@ -301,7 +304,39 @@ function isValidCc(e){
        cvv.parentElement.lastElementChild.style.display= 'none';
     }
 }
+activities.addEventListener('focus', (e) => {
+    e.target.parentNode.className = 'focus'
+}, true)
 
-function isValidCoursesEntry(){
+activities.addEventListener('blur', (e) => {
+    e.target.parentNode.className = ''
+}, true)
 
+
+
+function isDayTimeConflict(selectedCourseDayAndTime){
+    checkedOne.checked = false;
+
+    
+
+    
+    console.log(activitiesList);
+    for (let i=1;i < activitiesList.length; i++ )
+    {
+        if( activitiesList[i].firstElementChild.dataset.dayAndTime === selectedCourseDayAndTime 
+            && checkedOne.name !== activitiesList[i].firstElementChild.name 
+            && activitiesList[i].firstElementChild.checked) {
+
+            console.log(activitiesList[i].firstElementChild.name + 'is in conflict');
+            activitiesList[i].firstElementChild.checked=false;
+            checkedOne.checked = true;
+            totalCost -=parseInt(activitiesList[i].firstElementChild.dataset.cost);
+
+        }
+        
+        
+        checkedOne.checked = true;
+        console.log("no matches");
+    }
+    
 }
