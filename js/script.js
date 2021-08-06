@@ -120,7 +120,7 @@ paymentMethods.addEventListener("change", e=>{
 */
 
 form.addEventListener("submit", e=>{
-    e.preventDefault();
+    // e.preventDefault();
     //console.log("Form Submitted");
     isValidName(e);
     isValidEmail(e);
