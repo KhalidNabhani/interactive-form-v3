@@ -54,7 +54,7 @@ shirtDesign.addEventListener("change", e =>{
    
     shirtColorOption.style.display="none";
     //console.log("design "+design);
-    for(i=0; i < shirtColorOption.length;i++){
+    for(i=1; i < shirtColorOption.length;i++){
         let theme =shirtColorOption[i].dataset.theme;
         //console.log(theme);
         if(design === "js puns" && theme === 'js puns'){
@@ -63,8 +63,12 @@ shirtDesign.addEventListener("change", e =>{
             shirtColorOption[i].style.display ="";
         }else shirtColorOption[i].style.display ="none"; 
     }
+   
     shirtColorOption.style.display = "";
+    shirtColorOption[0].selected = 'selected'
+    shirtColorOption[0].innerHTML=" Select Color..."
     shirtColorOption.focus();
+
 });
 
 /* event listener on change to select Activities and calculate cost */
@@ -167,6 +171,8 @@ function setPaymnetDefault(){
         if(paymentMethods.options[j].value === "credit-card"){
             //paymentsType.options[i].selected =true;
             paymentMethods.options.selectedIndex =j;
+            paypal.style.display="none";
+            bitcoin.style.display="none";
             break;
         }
     }
@@ -182,8 +188,9 @@ setPaymnetDefault();
 
 function isValidName(e){
     const fullName = document.getElementById("name");
-    e.preventDefault();
+    
     if (fullName.value ===''){
+        e.preventDefault();
         fullName.parentElement.className= "not-valid";
         fullName.parentElement.lastElementChild.style.display= 'block';
         fullName.parentElement.classList.add("not-valid");
@@ -206,8 +213,9 @@ function isValidEmail(e){
     const eMail = document.getElementById("email");
     const eMailStatus = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([com\.]{3})$/.test(eMail.value);
     console.log("is validEmail ", eMailStatus);
-    e.preventDefault();
+    
     if (eMail.value ===''){
+        e.preventDefault();
         email.parentElement.className= "not-valid";
         email.parentElement.lastElementChild.style.display= 'block';
         email.parentElement.classList.add("not-valid");
@@ -215,6 +223,7 @@ function isValidEmail(e){
         eMail.parentNode.classList.add('not-valid', 'error-border');
         eMail.parentElement.lastElementChild.innerHTML = "Email cannot be empty";
     } else if (!eMailStatus) {
+        e.preventDefault();
         email.parentElement.className= "not-valid";
         email.parentElement.lastElementChild.style.display= 'block';
         email.parentElement.classList.add("not-valid");
@@ -230,7 +239,7 @@ function isValidEmail(e){
 
 
 function isValidCc(e){
-    e.preventDefault();
+    
     const ccNum = document.getElementById("cc-num")
     const zip = document.getElementById("zip");
     const cvv = document.getElementById("cvv");
@@ -244,12 +253,14 @@ function isValidCc(e){
     console.log("cvv " + cvvStatus);
 
     if(ccNum.value ===''){
+        e.preventDefault();
         ccNum.parentElement.className= "not-valid";
         ccNum.parentElement.lastElementChild.style.display= 'block';
         ccNum.parentElement.classList.add("not-valid");
         ccNum.parentElement.classList.remove('valid');
         ccNum.parentElement.lastElementChild.innerHTML = "Credit Card field can't be left empty";
     }else if(!ccNumStatus){
+        e.preventDefault();
         ccNum.parentElement.className= "not-valid";
         ccNum.parentElement.lastElementChild.style.display= 'block';
         ccNum.parentElement.classList.add("not-valid");
@@ -261,12 +272,14 @@ function isValidCc(e){
     }
 
     if(zip.value ===''){
+        e.preventDefault();
         zip.parentElement.className= "not-valid";
         zip.parentElement.lastElementChild.style.display= 'block';
         zip.parentElement.classList.add("not-valid");
         zip.parentElement.classList.remove('valid');
         zip.parentElement.lastElementChild.innerHTML = "Can't Be Embty";
     }else if(!zipStatus){
+        e.preventDefault();
         zip.parentElement.className= "not-valid";
         zip.parentElement.lastElementChild.style.display= 'block';
         zip.parentElement.classList.add("not-valid");
@@ -278,6 +291,7 @@ function isValidCc(e){
     }
 
     if(cvv.value ===''){
+        e.preventDefault();
         cvv.parentElement.className= "not-valid";
         cvv.parentElement.lastElementChild.style.display= 'block';
         cvv.parentElement.classList.add("not-valid");
@@ -285,6 +299,7 @@ function isValidCc(e){
         cvv.parentElement.lastElementChild.innerHTML = "please enter 3 digit cvv from back of your card";
         console.log(" cvv Code Numer check")
     }else if(!cvvStatus){
+        e.preventDefault();
         cvv.parentElement.className= "not-valid";
         cvv.parentElement.lastElementChild.style.display= 'block';
         cvv.parentElement.classList.add("not-valid");
@@ -314,7 +329,7 @@ function isDayTimeConflict(selectedCourseDayAndTime){
             activitiesList[i].firstElementChild.checked=false;
             checkedOne.checked = true;
             totalCost -=parseInt(activitiesList[i].firstElementChild.dataset.cost);
-
+            
         }
         checkedOne.checked = true;
     }
