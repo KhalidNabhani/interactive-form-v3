@@ -77,13 +77,55 @@ activities.addEventListener("change", e=>{
     
     checkedOne = e.target;
     if(checkedOne.checked){
-        totalCost +=parseInt(checkedOne.dataset.cost);
-        coursesCounter +=1;
-        isDayTimeConflict(checkedOne.dataset.dayAndTime)
-    }else {
-        totalCost -=parseInt(checkedOne.dataset.cost);
-        coursesCounter -=1;   
-    }
+        console.log("checked status " + checkedOne.checked)
+        for (let i=0;i < activitiesList.length; i++ )  {
+            console.log("name of activity in hte loop "+activitiesList[i].firstElementChild.name)
+            if(activitiesList[i].firstElementChild.dataset.dayAndTime === checkedOne.dataset.dayAndTime
+                   && checkedOne.name !== activitiesList[i].firstElementChild.name)
+            {
+                   console.log("inside first if statment "+activitiesList[i].firstElementChild.name) 
+                   activitiesList[i].firstElementChild.disabled=true; //("disabeld")
+                   activitiesList[i].className="disabled";
+                
+            }
+
+
+        }
+            totalCost +=parseInt(checkedOne.dataset.cost);
+            coursesCounter +=1; 
+         
+            // totalCost +=parseInt(checkedOne.dataset.cost);
+            // coursesCounter +=1;
+            // isDayTimeConflict(checkedOne.dataset.dayAndTime)
+    }else if(!checkedOne.checked)
+    {
+        console.log("checked status " + checkedOne.checked)
+        for (let i=0;i < activitiesList.length; i++ )  {
+            console.log("name of activity in hte loop "+activitiesList[i].firstElementChild.name)
+            if(activitiesList[i].firstElementChild.dataset.dayAndTime === checkedOne.dataset.dayAndTime
+                   && checkedOne.name !== activitiesList[i].firstElementChild.name)
+            {
+                   console.log("inside first if statment "+activitiesList[i].firstElementChild.name)
+                   activitiesList[i].className=""; 
+                   activitiesList[i].firstElementChild.disabled=false;
+                //    activitiesList[i].firstElementChild.classList.remove.disabled; //("disabeld")
+                   
+                
+            }
+
+
+        }
+            totalCost -=parseInt(checkedOne.dataset.cost);
+            coursesCounter -=1; 
+         
+            // totalCost +=parseInt(checkedOne.dataset.cost);
+            // coursesCounter +=1;
+            // isDayTimeConflict(checkedOne.dataset.dayAndTime)
+     }
+     //else {
+    //     totalCost -=parseInt(checkedOne.dataset.cost);
+    //     coursesCounter -=1;   
+    // }
     let printCost = activities.firstElementChild.nextElementSibling.nextElementSibling;
     printCost.innerHTML =`Total: $${totalCost}`;
 });
@@ -148,11 +190,15 @@ form.addEventListener("submit", e=>{
 /* Make the focus states of the activities more obvious to all users */
 activities.addEventListener('focus', (e) => {
     e.target.parentNode.className = 'focus';
-}, true)
+}, true);
 
 activities.addEventListener('blur', (e) => {
     e.target.parentNode.className = '';
-}, true)
+}, true);
+
+email.addEventListener("keyup", e=> {
+    isValidEmail(e);
+});
 
 /******************************************************************************* 
             functions and handlers of events listener
@@ -316,21 +362,21 @@ function isValidCc(e){
 /**************
  *  check selected cources if there is any conflict in time and adjust cost
  */
-function isDayTimeConflict(selectedCourseDayAndTime){
-    checkedOne.checked = false;
+// function isDayTimeConflict(selectedCourseDayAndTime){
+//     // checkedOne.checked = false;
+    
+//     for (let i=1;i < activitiesList.length; i++ )
+//     {
+//         if( activitiesList[i].firstElementChild.dataset.dayAndTime === selectedCourseDayAndTime 
+//             && checkedOne.name !== activitiesList[i].firstElementChild.name 
+//             && activitiesList[i].firstElementChild.checked) {
 
-    for (let i=1;i < activitiesList.length; i++ )
-    {
-        if( activitiesList[i].firstElementChild.dataset.dayAndTime === selectedCourseDayAndTime 
-            && checkedOne.name !== activitiesList[i].firstElementChild.name 
-            && activitiesList[i].firstElementChild.checked) {
-
-            console.log(activitiesList[i].firstElementChild.name + 'is in conflict');
-            activitiesList[i].firstElementChild.checked=false;
-            checkedOne.checked = true;
-            totalCost -=parseInt(activitiesList[i].firstElementChild.dataset.cost);
+//             console.log(activitiesList[i].firstElementChild.name + 'is in conflict');
+//             //activitiesList[i].firstElementChild.checked=false;
+//             checkedOne.disabled = true;
+//             totalCost -=parseInt(activitiesList[i].firstElementChild.dataset.cost);
             
-        }
-        checkedOne.checked = true;
-    }
-}
+//         }
+//         checkedOne.checked = true;
+//     }
+// }
