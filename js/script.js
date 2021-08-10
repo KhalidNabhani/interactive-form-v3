@@ -173,6 +173,7 @@ form.addEventListener("submit", e=>{
     }
 
     if(coursesCounter===0){
+        e.preventDefault()
         activitiesHeader.firstElementChild.classList.add("not-valid");
         activitiesErrorMessage.classList.add("not-valid");
         activitiesErrorMessage.style.display="block";
